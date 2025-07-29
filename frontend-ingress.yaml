@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: captcha-frontend-ingress
+    namespace: captcha # <-- 반드시 captcha 네임스페이스 지정
+    annotations:
+        nginx.ingress.kubernetes.io/ssl-redirect: "false" # HTTPS 강제 리디렉션 여부 (개발/테스트 시 false, 프로덕션은 true 권장)
+        # 필요한 경우 KakaoCloud 로드밸런서 관련 어노테이션 추가
+        # service.beta.kubernetes.io/kakaocloud-load-balancer-type: "network" # 예시: Network LB 사용 명시
+    labels:
+        app: captcha-frontend
+spec:
+    ingressClassName: nginx # Ingress Controller의 ingressClassName과 일치 (Nginx Ingress 기본값)
+    rules:
+        - host: test.realcatcha.com # <--- !!! 여기에 당신의 프런트엔드 도메인 이름을 입력하세요 !!!
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: captcha-frontend-service
+                            port:
+                                number: 80 # Service의 port와 일치
+---
+

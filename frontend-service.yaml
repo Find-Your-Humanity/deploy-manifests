@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: captcha-frontend-service
+    namespace: captcha # <-- 반드시 captcha 네임스페이스 지정
+    labels:
+        app: captcha-frontend
+spec:
+    selector:
+        app: captcha-frontend
+    ports:
+        - protocol: TCP
+          port: 80 # Service가 외부에 노출할 포트
+          targetPort: 3000 # 파드(Deployment)의 containerPort와 일치
+    type: ClusterIP # 클러스터 내부에서만 접근 가능하도록 ClusterIP 타입 사용 (Ingress로 외부 노출)
+---
+

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: captcha-frontend
+    namespace: captcha # <-- 반드시 captcha 네임스페이스 지정
+    labels:
+        app: captcha-frontend
+spec:
+    replicas: 2 # 초기 배포 시 파드 개수 (필요에 따라 조절)
+    selector:
+        matchLabels:
+            app: captcha-frontend
+    template:
+        metadata:
+            labels:
+                app: captcha-frontend
+        spec:
+            nodeSelector: # platform-pool에 배포되도록 노드 셀렉터 지정
+                pool-name: platform-pool # 또는 당신의 platform-pool에 부여된 다른 레이블
+            containers:
+                - name: frontend
+                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/{이미지 이름}:{태그 이름} # <--- !!! 여기에 당신의 이미지 레지스트리/이미지 이름:태그를 입력하세요 !!!
+                  ports:
+                      - containerPort: 3000 # 프런트엔드 애플리케이션이 리슨하는 포트 (일반적으로 React는 3000)
+                  env:
+                      - name: REACT_APP_BACKEND_API_URL # 백엔드 API URL 환경변수 (필요시 추가/수정)
+                        value: "http://captcha-backend.captcha.svc.cluster.local" # 향후 백엔드 서비스의 내부 클러스터 URL
+            # imagePullSecrets: # 프라이빗 레지스트리 사용 시 필요
+            # - name: your-registry-secret
+---
+
