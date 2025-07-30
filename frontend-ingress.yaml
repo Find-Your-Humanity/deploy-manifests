@@ -13,9 +13,6 @@ metadata:
         app: captcha-frontend
 spec:
     ingressClassName: nginx # Ingress Controller의 ingressClassName과 일치 (Nginx Ingress 기본값)
-    tls:
-        - hosts:
-              - test.realcatcha.com # <--- !!! 여기에 당신의 프런트엔드 도메인 이름을 입력하세요 !!!
     rules:
         - host: test.realcatcha.com # <--- !!! 여기에 당신의 프런트엔드 도메인 이름을 입력하세요 !!!
           http:
