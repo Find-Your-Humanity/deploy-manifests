@@ -4,11 +4,7 @@ metadata:
     name: captcha-frontend-ingress
     namespace: captcha # <-- 반드시 captcha 네임스페이스 지정
     annotations:
-        # Nginx Ingress Controller가 HTTP를 HTTPS로 리디렉션하도록 설정
         nginx.ingress.kubernetes.io/ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        # KakaoCloud ALB가 Key Manager의 인증서를 사용하여 TLS 연결을 종료하도록 설정
-        loadbalancer.openstack.org/default-tls-container-ref: "https://key-manager.kr-central-2.kakaoi.io/v1/secrets/492d7dbd-fe36-4a21-9086-7e3539e8b2aa"
     labels:
         app: captcha-frontend
 spec:
