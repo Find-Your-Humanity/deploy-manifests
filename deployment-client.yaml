@@ -21,7 +21,7 @@ spec:
                 - name: frontend
                   image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-frontend:691dd82623dbcf78cfd49fe8ecf0be5875d751be # <--- !!! 여기에 당신의 이미지 레지스트리/이미지 이름:태그를 입력하세요 !!!
                   ports:
-                      - containerPort: 80 # 프런트엔드 애플리케이션이 리슨하는 포트 (일반적으로 React는 3000)
+                      - containerPort: 3000 # 프런트엔드 애플리케이션이 리슨하는 포트 (일반적으로 React는 3000)
                   env:
                       - name: REACT_APP_BACKEND_API_URL # 백엔드 API URL 환경변수 (필요시 추가/수정)
                         value: "http://captcha-backend.captcha.svc.cluster.local" # 향후 백엔드 서비스의 내부 클러스터 URL

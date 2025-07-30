@@ -21,6 +21,6 @@ spec:
                         service:
                             name: captcha-frontend-service
                             port:
-                                number: 80 # Service의 port와 일치
+                                number: 3000 # Service의 port와 일치
 ---
 
