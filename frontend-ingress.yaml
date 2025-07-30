@@ -4,7 +4,7 @@ metadata:
     name: captcha-frontend-ingress
     namespace: captcha # <-- 반드시 captcha 네임스페이스 지정
     annotations:
-        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
     labels:
         app: captcha-frontend
 spec:
