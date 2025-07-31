@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: captcha-api-backend
+  namespace: captcha
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: captcha-api-backend
+  template:
+    metadata:
+      labels:
+        app: captcha-api-backend
+    spec:
+      nodeSelector:
+        node-type: captcha-api
+      containers:
+      - name: captcha-api-backend
+        image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:latest
+        ports:
+        - containerPort: 80
