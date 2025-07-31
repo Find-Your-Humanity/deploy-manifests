@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: captcha-api-backend-ingress
+  namespace: captcha
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app: captcha-api-backend
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.realcatcha.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: captcha-api-backend-service
+                port:
+                  number: 80
