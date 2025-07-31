@@ -17,6 +17,6 @@ spec:
         node-type: captcha-api
       containers:
       - name: captcha-api-backend
-        image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:latest
+        image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:7d724b6739a8c64ebbf1ebdaf4319912cdd25e6c
         ports:
         - containerPort: 80
