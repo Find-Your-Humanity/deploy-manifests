@@ -5,6 +5,7 @@ metadata:
   namespace: captcha
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   labels:
     app: captcha-api-backend
 spec:
