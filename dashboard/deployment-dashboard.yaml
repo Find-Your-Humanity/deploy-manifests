@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: website
+  name: dashboard
   namespace: captcha
   labels:
-    app: website
+    app: dashboard
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: website
+      app: dashboard
   template:
     metadata:
       labels:
-        app: website
+        app: dashboard
     spec:
       nodeSelector:
         pool-name: platform-pool
       containers:
-        - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:3a72cb16d80903c6ab83057fa0c613d5025360a3
+        - name: dashboard
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:latest
           ports:
             - containerPort: 80
           env:
@@ -50,13 +50,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: website-service
+  name: dashboard-service
   namespace: captcha
   labels:
-    app: website
+    app: dashboard
 spec:
   selector:
-    app: website
+    app: dashboard
   ports:
     - protocol: TCP
       port: 80
@@ -66,7 +66,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: website-ingress
+  name: dashboard-ingress
   namespace: captcha
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -76,27 +76,16 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - www.realcatcha.com
-        - realcatcha.com
-      secretName: realcatcha-tls
+        - dashboard.realcatcha.com
+      secretName: dashboard-tls
   rules:
-    - host: www.realcatcha.com
+    - host: dashboard.realcatcha.com
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: website-service
-                port:
-                  number: 80
-    - host: realcatcha.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: website-service
+                name: dashboard-service
                 port:
                   number: 80
