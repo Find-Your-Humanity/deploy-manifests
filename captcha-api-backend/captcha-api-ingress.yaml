@@ -1,3 +1,6 @@
+#api.realcatcha.com으로 접근하면 클러스터 내부의 captcha-api-backend-service
+#로 트래픽을 라우팅하겠다는 설정
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

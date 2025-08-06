@@ -20,5 +20,6 @@ spec:
       containers:
       - name: captcha-api-backend
         image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:latest
+        
         ports:
         - containerPort: 80
