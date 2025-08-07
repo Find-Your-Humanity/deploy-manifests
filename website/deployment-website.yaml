@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:bc0af310429f99f56fd4e1fe5b099611bb646b79
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:bc7891c4a95a0e8485b3b90cefcd8cc0812c9283
           ports:
             - containerPort: 80
           env:
@@ -69,9 +69,15 @@ metadata:
   name: website-ingress
   namespace: captcha
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  tls:
+    - hosts:
+        - www.realcatcha.com
+        - realcatcha.com
+      secretName: realcatcha-tls
   rules:
     - host: www.realcatcha.com
       http:
