@@ -6,8 +6,7 @@ kind: Ingress
 metadata:
   name: captcha-api-backend-ingress
   namespace: captcha
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  annotations: {}
   labels:
     app: captcha-api-backend
 spec:
