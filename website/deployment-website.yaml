@@ -70,11 +70,6 @@ metadata:
   namespace: captcha
   annotations: {}
 spec:
-  tls:
-    - hosts:
-        - www.realcatcha.com
-        - realcatcha.com
-      secretName: realcatcha-tls
   rules:
     - host: www.realcatcha.com
       http:
