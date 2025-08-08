@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:ced6cd7be38704a12573e7b8f9441dfc35393bc0
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:041ab1511bf9f00838b9256c7f2128ddda69fced
           ports:
             - containerPort: 80
           env:
@@ -68,7 +68,10 @@ kind: Ingress
 metadata:
   name: website-ingress
   namespace: captcha
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
