@@ -68,10 +68,7 @@ kind: Ingress
 metadata:
   name: website-ingress
   namespace: captcha
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  annotations: {}
 spec:
   rules:
     - host: www.realcatcha.com
