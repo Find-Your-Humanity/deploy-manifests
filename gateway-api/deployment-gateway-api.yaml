@@ -78,16 +78,19 @@ kind: Ingress
 metadata:
   name: gateway-api-ingress
   namespace: captcha
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  ingressClassName: nginx
   rules:
-    - host: api.realcatcha.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-api-backend-service
-                port:
-                  number: 80
+  - host: api.realcatcha.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gateway-api-backend-service
+            port:
+              number: 80
