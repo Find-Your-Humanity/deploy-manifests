@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: gateway-api
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:c4db6199048b775cd2d92318e6e7638f03a6970f
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:4b7dc680d3acb0245e284257895551b118122604
           ports:
             - containerPort: 80
           env:
