@@ -35,6 +35,18 @@ spec:
               value: "captcha"
             - name: JWT_SECRET_KEY
               value: "realcatcha-jwt-secret-key-2024"
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-secrets
+                  key: client-id
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-secrets
+                  key: client-secret
+            - name: GOOGLE_REDIRECT_URI
+              value: "https://gateway.realcatcha.com/api/auth/google/callback"
           resources:
             requests:
               memory: "256Mi"
