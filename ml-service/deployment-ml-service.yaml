@@ -43,6 +43,23 @@ spec:
                 topologyKey: kubernetes.io/hostname
       imagePullSecrets:
         - name: kcr-pull-secret
+      initContainers:
+        - name: sync-sitepkgs
+          image: alpine:3.20
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -euo pipefail
+              mkdir -p /opt/sitepkgs
+              rsync -aH --delete /root/workspace/site-packages/ /opt/sitepkgs/ || true
+              echo "[INIT] synced /root/workspace/site-packages -> /opt/sitepkgs"
+          volumeMounts:
+            - name: ml-service
+              mountPath: /root
+            - name: sitepkgs-local
+              mountPath: /opt/sitepkgs
+
       containers:
         - name: ml-service
           image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:latest
@@ -56,7 +73,7 @@ spec:
             - name: PATH
               value: "/root/workspace/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
             - name: PYTHONPATH
-              value: "/root/workspace/ml-service:/app"
+              value: "/opt/sitepkgs:/root/workspace/ml-service:/app"
           resources:
             requests:
               memory: "512Mi"
@@ -87,7 +104,12 @@ spec:
           volumeMounts:
             - name: ml-service
               mountPath: /root
+            - name: sitepkgs-local
+              mountPath: /opt/sitepkgs
+
       volumes:
         - name: ml-service
           persistentVolumeClaim:
             claimName: ml-service
+        - name: sitepkgs-local
+          emptyDir: {}
