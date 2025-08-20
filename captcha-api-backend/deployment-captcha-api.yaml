@@ -20,5 +20,8 @@ spec:
       containers:
       - name: captcha-api-backend
         image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:b4654d43f7e999da4a2f2d3c387bac1e778a61ca
+        env:
+        - name: ML_SERVICE_URL
+          value: "http://ml-service.kubeflow-user-example-com.svc.cluster.local:8001/predict-bot"
         ports:
         - containerPort: 80
