@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-service
+  namespace: kubeflow-user-example-com
+  labels:
+    app: ml-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-service
+  template:
+    metadata:
+      labels:
+        app: ml-service
+    spec:
+      nodeSelector:
+        node-type: ml-gpu
+        gpu-role: serving
+      tolerations:
+        - key: "nvidia.com/gpu"
+          value: "present"
+          effect: "NoSchedule"
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: ml-service
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - ml-service
+                topologyKey: kubernetes.io/hostname
+      imagePullSecrets:
+        - name: kcr-pull-secret
+      containers:
+        - name: ml-service
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:4c1230f4f5453a6b52db0c1c3100dfc8dbd4a7f3
+          ports:
+            - containerPort: 8001
+          env:
+            - name: MODEL_DIR
+              value: "/root/models"
+            - name: VIRTUAL_ENV
+              value: "/root/workspace/venv"
+            - name: PATH
+              value: "/root/workspace/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            - name: PYTHONPATH
+              value: "/root/workspace/ml-service:/app"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+              nvidia.com/gpu: "1"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+              nvidia.com/gpu: "1"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          workingDir: /root/workspace/ml-service
+          command: [ "/bin/sh","-lc" ]
+          args:
+            - >
+              test -x "$VIRTUAL_ENV/bin/python" || { echo "venv not found at $VIRTUAL_ENV"; exit 1; };
+              exec python -m uvicorn src.api.app:app --host 0.0.0.0 --port 8001
+          volumeMounts:
+            - name: ml-service
+              mountPath: /root
+      volumes:
+        - name: ml-service
+          persistentVolumeClaim:
+            claimName: ml-service
