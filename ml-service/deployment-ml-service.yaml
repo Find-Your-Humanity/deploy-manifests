@@ -18,6 +18,7 @@ spec:
       nodeSelector:
         node-type: ml-gpu
         topology.cinder.csi.openstack.org/zone: kr-central-2-a
+        gpu-role: serving
       tolerations:
         - key: "nvidia.com/gpu"
           value: "present"
