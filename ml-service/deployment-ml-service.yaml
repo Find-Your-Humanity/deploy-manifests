@@ -68,10 +68,6 @@ spec:
           env:
             - name: MODEL_DIR
               value: "/root/models"
-            - name: VIRTUAL_ENV
-              value: "/root/workspace/venv"
-            - name: PATH
-              value: "/root/workspace/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
             - name: PYTHONPATH
               value: "/opt/sitepkgs:/root/workspace/ml-service:/app"
           resources:
@@ -99,7 +95,6 @@ spec:
           command: [ "/bin/sh","-lc" ]
           args:
             - >
-              test -x "$VIRTUAL_ENV/bin/python" || { echo "venv not found at $VIRTUAL_ENV"; exit 1; };
               exec python -m uvicorn src.api.app:app --host 0.0.0.0 --port 8001
           volumeMounts:
             - name: ml-service
