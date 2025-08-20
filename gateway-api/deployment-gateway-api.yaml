@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: gateway-api
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:e48a95f206e7285502bbe5343733399ad1a8b0bb
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:680b69608494aed7d69e78b617cd0c310306415c
           ports:
             - containerPort: 80
           env:
@@ -35,6 +35,18 @@ spec:
               value: "captcha"
             - name: JWT_SECRET_KEY
               value: "realcatcha-jwt-secret-key-2024"
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-secrets
+                  key: client-id
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-secrets
+                  key: client-secret
+            - name: GOOGLE_REDIRECT_URI
+              value: "https://realcatcha.com/auth/google/callback"
           resources:
             requests:
               memory: "256Mi"
