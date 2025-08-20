@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-service
+  namespace: kubeflow-user-example-com
+  labels:
+    app: ml-service
+spec:
+  selector:
+    app: ml-service
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: ClusterIP
