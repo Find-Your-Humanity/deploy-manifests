@@ -20,7 +20,6 @@ spec:
         topology.cinder.csi.openstack.org/zone: kr-central-2-a
       tolerations:
         - key: "nvidia.com/gpu"
-          operator: "Equal"
           value: "present"
           effect: "NoSchedule"
       topologySpreadConstraints:
