@@ -46,7 +46,7 @@ spec:
                   name: google-oauth-secrets
                   key: client-secret
             - name: GOOGLE_REDIRECT_URI
-              value: "https://gateway.realcatcha.com/api/auth/google/callback"
+              value: "https://realcatcha.com/auth/google/callback"
           resources:
             requests:
               memory: "256Mi"
