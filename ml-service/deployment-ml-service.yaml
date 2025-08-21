@@ -6,7 +6,7 @@ metadata:
   labels:
     app: ml-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: ml-service
@@ -43,20 +43,35 @@ spec:
                 topologyKey: kubernetes.io/hostname
       imagePullSecrets:
         - name: kcr-pull-secret
+      initContainers:
+        - name: sync-sitepkgs
+          image: alpine:3.20
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -euo pipefail
+              apk add --no-cache rsync >/dev/null
+              mkdir -p /opt/sitepkgs
+              rsync -aH --delete /root/workspace/site-packages/ /opt/sitepkgs/ || true
+              echo "[INIT] synced /root/workspace/site-packages -> /opt/sitepkgs"
+                ls -d /opt/sitepkgs/uvicorn* 2>/dev/null || echo "[INIT] uvicorn package not found in /opt/sitepkgs (will fail to import)"
+          volumeMounts:
+            - name: ml-service
+              mountPath: /root
+            - name: sitepkgs-local
+              mountPath: /opt/sitepkgs
+
       containers:
         - name: ml-service
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:4c1230f4f5453a6b52db0c1c3100dfc8dbd4a7f3
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:f3bf37d7d08e92c0d8940cfd8b4e73f20b628d7d
           ports:
             - containerPort: 8001
           env:
             - name: MODEL_DIR
               value: "/root/models"
-            - name: VIRTUAL_ENV
-              value: "/root/workspace/venv"
-            - name: PATH
-              value: "/root/workspace/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
             - name: PYTHONPATH
-              value: "/root/workspace/ml-service:/app"
+              value: "/opt/sitepkgs:/root/workspace/ml-service:/app"
           resources:
             requests:
               memory: "512Mi"
@@ -82,12 +97,18 @@ spec:
           command: [ "/bin/sh","-lc" ]
           args:
             - >
-              test -x "$VIRTUAL_ENV/bin/python" || { echo "venv not found at $VIRTUAL_ENV"; exit 1; };
+              echo "PYTHONPATH=$PYTHONPATH";
+              python -c "import sys; print('sys.path:', sys.path[:3])";
               exec python -m uvicorn src.api.app:app --host 0.0.0.0 --port 8001
           volumeMounts:
             - name: ml-service
               mountPath: /root
+            - name: sitepkgs-local
+              mountPath: /opt/sitepkgs
+
       volumes:
         - name: ml-service
           persistentVolumeClaim:
             claimName: ml-service
+        - name: sitepkgs-local
+          emptyDir: {}
