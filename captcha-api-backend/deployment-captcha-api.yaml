@@ -19,7 +19,7 @@ spec:
       - name: kcr-pull-secret
       containers:
       - name: captcha-api-backend
-        image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:03490daf21f34a5451afb9c3010f774faa9b7f0b
+        image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:aae938cdeddfee74bf434af420ab504eab44a285
         env:
         - name: ML_SERVICE_URL
           value: "http://ml-service.kubeflow-user-example-com.svc.cluster.local:8001/predict-bot"
