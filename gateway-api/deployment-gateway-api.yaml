@@ -22,8 +22,8 @@ spec:
         hostPath:
           path: /usr/share/zoneinfo/Asia/Seoul
       containers:
-        - name: gateway-api
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:ad95adda75059506e30bba4b8491eb1617c25bf3
+                 - name: gateway-api
+           image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:ad95adda75059506e30bba4b8491eb1617c25bf3
           ports:
             - containerPort: 80
           volumeMounts:
@@ -58,11 +58,11 @@ spec:
               value: "Asia/Seoul"
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: "16Gi"
+              cpu: "5"
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "32Gi"
+              cpu: "8"
           livenessProbe:
             httpGet:
               path: /health
