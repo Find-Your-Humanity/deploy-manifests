@@ -17,11 +17,18 @@ spec:
     spec:
       nodeSelector:
         pool-name: platform-pool
+      volumes:
+      - name: tz-seoul
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Seoul
       containers:
         - name: gateway-api
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:26c2450067c52c294b235397854af5fbf2f77011
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:a3b3a6f9e8e357cf0dbc3dd0663ae128147db14a
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: tz-seoul
+              mountPath: /etc/localtime
           env:
             - name: DB_HOST
               value: "az-a.team1-db.1bb3c9ceb1db43928600b93b2a2b1d50.mysql.managed-service.kr-central-2.kakaocloud.com"
@@ -47,13 +54,15 @@ spec:
                   key: client-secret
             - name: GOOGLE_REDIRECT_URI
               value: "https://realcatcha.com/auth/google/callback"
+            - name: TZ
+              value: "Asia/Seoul"
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: "16Gi"
+              cpu: "5"
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "32Gi"
+              cpu: "8"
           livenessProbe:
             httpGet:
               path: /health

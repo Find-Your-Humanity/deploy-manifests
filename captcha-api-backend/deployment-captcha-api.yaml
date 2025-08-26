@@ -1,24 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: captcha-api-backend
-  namespace: captcha
+    name: captcha-api-backend
+    namespace: captcha
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: captcha-api-backend
-  template:
-    metadata:
-      labels:
-        app: captcha-api-backend
-    spec:
-      nodeSelector:
-        node-type: captcha-api
-      imagePullSecrets:
-      - name: kcr-pull-secret
-      containers:
-      - name: captcha-api-backend
-        image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:b4654d43f7e999da4a2f2d3c387bac1e778a61ca
-        ports:
-        - containerPort: 80
+    replicas: 2
+    selector:
+        matchLabels:
+            app: captcha-api-backend
+    template:
+        metadata:
+            labels:
+                app: captcha-api-backend
+        spec:
+            nodeSelector:
+                node-type: captcha-api
+            imagePullSecrets:
+                - name: kcr-pull-secret
+            containers:
+                - name: captcha-api-backend
+                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:f610722f7f3265b8d74c2e0defd5235090579663
+                  env:
+                      - name: ML_SERVICE_URL
+                        value: "http://ml-service.kubeflow-user-example-com.svc.cluster.local:8001/predict-bot"
+                  ports:
+                      - containerPort: 80
