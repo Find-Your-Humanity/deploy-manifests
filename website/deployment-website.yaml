@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:3b32676e50f7b060ac82365ba06c42be97d79164
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:3ff5cc22c0d8014505f61a70472c62986606381d
           ports:
             - containerPort: 80
           env:
@@ -66,41 +66,28 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: website-ingress
-    namespace: captcha
-    annotations: {}
+  name: website-ingress
+  namespace: captcha
+  annotations: {}
 spec:
-    ingressClassName: nginx
-    rules:
-        - host: www.realcatcha.com
-          http:
-              paths:
-                  - path: /
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: website-service
-                            port:
-                                number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-    name: website-ingress-redirect-nonwww
-    namespace: captcha
-    annotations:
-        nginx.ingress.kubernetes.io/permanent-redirect: "https://www.realcatcha.com$request_uri"
-        nginx.ingress.kubernetes.io/permanent-redirect-code: "302"
-spec:
-    ingressClassName: nginx
-    rules:
-        - host: realcatcha.com
-          http:
-              paths:
-                  - path: /
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: website-service
-                            port:
-                                number: 80
+  rules:
+    - host: www.realcatcha.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: website-service
+                port:
+                  number: 80
+    - host: realcatcha.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: website-service
+                port:
+                  number: 80
