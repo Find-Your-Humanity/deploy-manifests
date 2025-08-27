@@ -89,8 +89,8 @@ metadata:
     name: website-ingress-redirect-nonwww
     namespace: captcha
     annotations:
-        nginx.ingress.kubernetes.io/server-snippet: |
-            return 302 https://www.realcatcha.com$request_uri;
+        nginx.ingress.kubernetes.io/permanent-redirect: "https://www.realcatcha.com$request_uri"
+        nginx.ingress.kubernetes.io/permanent-redirect-code: "302"
 spec:
     ingressClassName: nginx
     rules:
