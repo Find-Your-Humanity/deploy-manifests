@@ -14,3 +14,7 @@ spec:
       port: 8001
       targetPort: 8001
   type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
