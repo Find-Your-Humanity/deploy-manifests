@@ -71,7 +71,7 @@ spec:
             - name: MODEL_DIR
               value: "/root/models"
             - name: PYTHONPATH
-              value: "/opt/sitepkgs:/root/workspace/ml-service:/app"
+              value: "/opt/sitepkgs:/app"
           resources:
             requests:
               memory: "8Gi"
@@ -93,7 +93,7 @@ spec:
               port: 8001
             initialDelaySeconds: 5
             periodSeconds: 5
-          workingDir: /root/workspace/ml-service
+          workingDir: /app
           command: [ "/bin/sh","-lc" ]
           args:
             - >
