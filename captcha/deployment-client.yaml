@@ -19,7 +19,7 @@ spec:
                 pool-name: platform-pool # 또는 당신의 platform-pool에 부여된 다른 레이블
             containers:
                 - name: frontend
-                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-frontend:74cce672ec59358d15c356106325573036b0ca4f # <--- !!! 여기에 당신의 이미지 레지스트리/이미지 이름:태그를 입력하세요 !!!
+                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-frontend:a3c436a2966f6a0bf523ebdbafbd5ba1530d9862 # <--- !!! 여기에 당신의 이미지 레지스트리/이미지 이름:태그를 입력하세요 !!!
                   ports:
                       - containerPort: 3000 # 프런트엔드 애플리케이션이 리슨하는 포트 (일반적으로 React는 3000)
                   env:
