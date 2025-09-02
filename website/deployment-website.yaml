@@ -78,11 +78,6 @@ metadata:
     cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - realcatcha.com
-        - www.realcatcha.com
-      secretName: website-tls
   rules:
     - host: www.realcatcha.com
       http:
