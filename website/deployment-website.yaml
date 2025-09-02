@@ -75,6 +75,7 @@ metadata:
   name: website-ingress
   namespace: captcha
   annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
 spec:
   ingressClassName: nginx
