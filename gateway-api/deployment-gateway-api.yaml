@@ -56,6 +56,8 @@ spec:
               value: "https://realcatcha.com/auth/google/callback"
             - name: TZ
               value: "Asia/Seoul"
+            - name: CAPTCHA_SECRET_KEY
+              value: "rc_sk_273d06a8a03799f7637083b50f4f08f2aa29ffb56fd1bfe64833850b4b16810c"
           resources:
             requests:
               memory: "16Gi"

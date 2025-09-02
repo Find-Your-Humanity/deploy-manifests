@@ -25,6 +25,8 @@ spec:
           env:
             - name: REACT_APP_API_URL
               value: "http://captcha-api-backend-service.captcha.svc.cluster.local"
+            - name: REACT_APP_CAPTCHA_SITE_KEY
+              value: "rc_live_f49a055d62283fd02e8203ccaba70fc2"
           resources:
             requests:
               memory: "128Mi"
@@ -68,8 +70,16 @@ kind: Ingress
 metadata:
   name: website-ingress
   namespace: captcha
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
 spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - realcatcha.com
+        - www.realcatcha.com
+      secretName: website-tls
   rules:
     - host: www.realcatcha.com
       http:
