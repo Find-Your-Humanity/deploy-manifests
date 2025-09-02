@@ -64,14 +64,14 @@ spec:
 
       containers:
         - name: ml-service
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:afe191d1db930486eae8af081aec41d9369c40fb
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:11a9e3e5eca2c51afcfb186ba2d8cdb45b9ba862
           ports:
             - containerPort: 8001
           env:
             - name: MODEL_DIR
               value: "/root/models"
             - name: PYTHONPATH
-              value: "/opt/sitepkgs:/root/workspace/ml-service:/app"
+              value: "/opt/sitepkgs:/app"
           resources:
             requests:
               memory: "8Gi"
@@ -93,7 +93,7 @@ spec:
               port: 8001
             initialDelaySeconds: 5
             periodSeconds: 5
-          workingDir: /root/workspace/ml-service
+          workingDir: /app
           command: [ "/bin/sh","-lc" ]
           args:
             - >

@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:3ff5cc22c0d8014505f61a70472c62986606381d
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:7e3c532402e7a7c9f233c429f417c159c2b13c84
           ports:
             - containerPort: 80
           env:
@@ -64,6 +64,10 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
