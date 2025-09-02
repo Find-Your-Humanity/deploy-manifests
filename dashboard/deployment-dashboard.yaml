@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: dashboard
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:3ecfc35f474ec9d820f3d840e6af535474a7ea13
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:6671a1a1658e824be61eea9ec79e03350c3eeb1c
           ports:
             - containerPort: 80
           env:
@@ -71,7 +71,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
