@@ -19,12 +19,18 @@ spec:
         pool-name: platform-pool
       containers:
         - name: dashboard
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:2cf2268e21344b3b3b43bc83c6bc47484a97ab52
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:40e5d1cc126265f217d5c03a094106c10e064416
           ports:
             - containerPort: 80
           env:
             - name: REACT_APP_API_URL
               value: "https://gateway.realcatcha.com"
+            - name: REACT_APP_TOSS_CLIENT_KEY
+              value: "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm"
+            - name: REACT_APP_TOSS_CLIENT_KEY_ALT
+              value: ""
+            - name: REACT_APP_TOSS_ENVIRONMENT
+              value: "sandbox"
           resources:
             requests:
               memory: "128Mi"
