@@ -75,28 +75,39 @@ metadata:
   name: website-ingress
   namespace: captcha
   annotations:
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
 spec:
   ingressClassName: nginx
   rules:
-    - host: www.realcatcha.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: website-service
-                port:
-                  number: 80
-    - host: realcatcha.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: website-service
-                port:
-                  number: 80
+    -   host: realcatcha.com
+        http:
+          paths:
+            -   path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: website-service
+                    port:
+                      number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: website-www-ingress
+  namespace: captcha
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://realcatcha.com$request_uri
+    cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
+spec:
+  ingressClassName: nginx
+  rules:
+    -   host: www.realcatcha.com
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: website-service
+                  port:
+                    number: 80
