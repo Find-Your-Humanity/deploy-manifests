@@ -96,7 +96,7 @@ metadata:
   name: website-www-ingress
   namespace: captcha
   annotations:
-    nginx.ingress.kubernetes.io/permanent-redirect: https://realcatcha.com$request_uri
+    nginx.ingress.kubernetes.io/permanent-redirect: "https://realcatcha.com$request_uri"
     cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
 spec:
   ingressClassName: nginx
