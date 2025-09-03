@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: dashboard
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:beb004f73f6c9bc760e088c90c3e4012a3330c99
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/dashboard:a5264b5e42aea3bd94f9be76f49139ad70ced3d9
           ports:
             - containerPort: 80
           env:
