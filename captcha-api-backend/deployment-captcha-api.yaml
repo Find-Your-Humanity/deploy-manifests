@@ -19,7 +19,7 @@ spec:
                 - name: kcr-pull-secret
             containers:
                 - name: captcha-api-backend
-                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:251d8a9f16529a2ab777a5feb5b786ea4083be07
+                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:bb3a686d7dee1d16599169d6e9a9456ba4d5072e
                   ports:
                       - containerPort: 80
                   env:
