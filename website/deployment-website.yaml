@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:3f1781e49c1fb62bf970ae65c7eba02af87963da
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:91ca4170e6236e210549330371815fcebe220e69
           ports:
             - containerPort: 80
           env:
