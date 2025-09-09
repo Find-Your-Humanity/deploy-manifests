@@ -64,7 +64,7 @@ spec:
 
       containers:
         - name: ml-service
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:aa30b355229adbdbbd52a59f4561e8a75b136557
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:bded40099025b3654b0dc02cc0a62e2b7f5b8a88
           ports:
             - containerPort: 8001
           env:
