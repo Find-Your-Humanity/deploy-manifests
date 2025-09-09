@@ -25,8 +25,8 @@ spec:
           env:
             - name: REACT_APP_API_URL
               value: "http://captcha-api-backend-service.captcha.svc.cluster.local"
-            - name: REACT_APP_CAPTCHA_SITE_KEY
-              value: "rc_live_f49a055d62283fd02e8203ccaba70fc2"
+            # - name: REACT_APP_CAPTCHA_SITE_KEY
+            #   value: ""  # 전역 기본키 사용 금지: 사용자별 siteKey를 클라이언트에서 명시적으로 전달하도록 강제
           resources:
             requests:
               memory: "128Mi"
