@@ -19,7 +19,7 @@ spec:
         pool-name: platform-pool
       containers:
         - name: website
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:7e3c532402e7a7c9f233c429f417c159c2b13c84
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/website:ed1193da9dea2396dde037869eb0752e5eada7a6
           ports:
             - containerPort: 80
           env:
@@ -75,28 +75,39 @@ metadata:
   name: website-ingress
   namespace: captcha
   annotations:
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
 spec:
   ingressClassName: nginx
   rules:
-    - host: www.realcatcha.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: website-service
-                port:
-                  number: 80
-    - host: realcatcha.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: website-service
-                port:
-                  number: 80
+  - host: realcatcha.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: website-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: website-www-ingress
+  namespace: captcha
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: "https://realcatcha.com"
+    cert-manager.io/cluster-issuer: "kubeflow-self-signing-issuer"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.realcatcha.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: website-service
+              port:
+                number: 80

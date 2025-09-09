@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ml-service-ingress
+  namespace: kubeflow-user-example-com
+  annotations:
+    # 같은 클라이언트가 같은 Pod로 라우팅되도록 쿠키 기반 세션 고정
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "ml-route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "86400"   # 1일(초)
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "86400"   # 1일(초)
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ml-service.realcatcha.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ml-service
+            port:
+              number: 8001

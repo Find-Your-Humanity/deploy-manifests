@@ -53,8 +53,8 @@ spec:
               set -euo pipefail
               apk add --no-cache rsync >/dev/null
               mkdir -p /opt/sitepkgs
-              rsync -aH --delete /root/workspace/site-packages/ /opt/sitepkgs/ || true
-              echo "[INIT] synced /root/workspace/site-packages -> /opt/sitepkgs"
+              rsync -aH --delete /root/workspace/venv/lib/python3.10/site-packages/ /opt/sitepkgs/ || true
+              echo "[INIT] synced /root/workspace/venv/lib/python3.10/site-packages -> /opt/sitepkgs"
                 ls -d /opt/sitepkgs/uvicorn* 2>/dev/null || echo "[INIT] uvicorn package not found in /opt/sitepkgs (will fail to import)"
           volumeMounts:
             - name: ml-service
@@ -64,7 +64,7 @@ spec:
 
       containers:
         - name: ml-service
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:11a9e3e5eca2c51afcfb186ba2d8cdb45b9ba862
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/ml-service:aa30b355229adbdbbd52a59f4561e8a75b136557
           ports:
             - containerPort: 8001
           env:
