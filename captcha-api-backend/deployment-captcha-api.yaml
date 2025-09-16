@@ -39,11 +39,11 @@ spec:
                       value: "rc_sk_273d06a8a03799f7637083b50f4f08f2aa29ffb56fd1bfe64833850b4b16810c"
                   resources:
                     requests:
-                      memory: "2Gi"
+                      memory: "4Gi"
                       cpu: "1"
                     limits:
-                      memory: "4Gi"
-                      cpu: "2"
+                      memory: "6Gi"
+                      cpu: "3"
                   livenessProbe:
                     httpGet:
                       path: /
