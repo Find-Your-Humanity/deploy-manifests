@@ -17,17 +17,10 @@ spec:
         - type: Percent
           value: 100
           periodSeconds: 60
-    # scaleUp 정책은 필요시 조정하세요(버스트 완화)
-    # scaleUp:
-    #   stabilizationWindowSeconds: 0
-    #   policies:
-    #     - type: Percent
-    #       value: 100
-    #       periodSeconds: 60
   metrics:
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 30
+          averageUtilization: 70 # [수정] CPU 사용률 목표를 30% -> 70%로 상향 조정합니다. 포드가 충분히 일을 하고 있을 때 확장하도록 합니다.

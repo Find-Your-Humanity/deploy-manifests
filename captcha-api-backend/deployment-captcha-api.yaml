@@ -55,13 +55,17 @@ spec:
               cpu: "4"
           livenessProbe:
             httpGet:
-              path: /
+              path: / # Tip: 가능하다면 DB 연결 등 없이 200 OK만 빠르게 반환하는 /healthz 같은 경량 엔드포인트를 만드세요.
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5      # [수정] Probe 타임아웃을 5초로 늘려 부하 상황에서 응답 지연을 허용합니다.
+            failureThreshold: 3    # [수정] 3번 연속 실패 시 재시작하도록 명시합니다 (기본값이지만 명시적으로 관리).
           readinessProbe:
             httpGet:
-              path: /
+              path: / # Tip: 이 경로는 DB 연결 등 실제 서비스 가능 상태를 확인하는 것이 좋습니다.
               port: 80
-            initialDelaySeconds: 5
+            initialDelaySeconds: 15 # [수정] 애플리케이션이 완전히 구동될 시간을 충분히 주기 위해 15초로 늘립니다.
             periodSeconds: 5
+            timeoutSeconds: 5       # [수정] Readiness Probe도 타임아웃을 5초로 설정합니다.
+            failureThreshold: 3
