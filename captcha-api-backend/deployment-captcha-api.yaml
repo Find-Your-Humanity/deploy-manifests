@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: captcha-api-backend
+        admission.datadoghq.com/enabled: "true"
     spec:
       affinity:
         podAntiAffinity:
@@ -32,6 +33,20 @@ spec:
           ports:
             - containerPort: 80
           env:
+            - name: DD_LOGS_INJECTION
+              value: "true"
+            - name: DD_GIT_REPOSITORY_URL
+              value: github.com/find-your-humanity/captcha-api
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP # Pod가 실행 중인 노드의 IP를 자동으로 주입
+            - name: DD_ENV # 환경 구분 (e.g., production, staging)
+              value: "production"
+            - name: DD_SERVICE # 서비스 이름
+              value: "captcha-api-backend"
+            - name: DD_VERSION # 서비스 버전 (선택 사항)
+              value: "1.0.0"
             - name: DB_HOST
               value: "az-a.team1-db.1bb3c9ceb1db43928600b93b2a2b1d50.mysql.managed-service.kr-central-2.kakaocloud.com"
             - name: DB_PORT
