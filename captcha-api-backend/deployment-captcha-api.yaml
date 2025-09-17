@@ -1,58 +1,67 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: captcha-api-backend
-    namespace: captcha
+  name: captcha-api-backend
+  namespace: captcha
 spec:
-    replicas: 2
-    selector:
-        matchLabels:
-            app: captcha-api-backend
-    template:
-        metadata:
-            labels:
-                app: captcha-api-backend
-        spec:
-            nodeSelector:
-                node-type: captcha-api
-            imagePullSecrets:
-                - name: kcr-pull-secret
-            containers:
-                - name: captcha-api-backend
-                  image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:8a191cc8b6b2b2fd2a881b881b28243e2f2c95b5
-                  ports:
-                      - containerPort: 80
-                  env:
-                    - name: DB_HOST
-                      value: "az-a.team1-db.1bb3c9ceb1db43928600b93b2a2b1d50.mysql.managed-service.kr-central-2.kakaocloud.com"
-                    - name: DB_PORT
-                      value: "13306"
-                    - name: DB_USER
-                      value: "realcatcha"
-                    - name: DB_PASSWORD
-                      value: "realcatcha"
-                    - name: DB_NAME
-                      value: "captcha"
-                    - name: TZ
-                      value: "Asia/Seoul"
-                    - name: DEMO_SECRET_KEY
-                      value: "rc_sk_273d06a8a03799f7637083b50f4f08f2aa29ffb56fd1bfe64833850b4b16810c"
-                  resources:
-                    requests:
-                      memory: "4Gi"
-                      cpu: "1"
-                    limits:
-                      memory: "6Gi"
-                      cpu: "3"
-                  livenessProbe:
-                    httpGet:
-                      path: /
-                      port: 80
-                    initialDelaySeconds: 30
-                    periodSeconds: 10
-                  readinessProbe:
-                    httpGet:
-                      path: /
-                      port: 80
-                    initialDelaySeconds: 5
-                    periodSeconds: 5
+  replicas: 2
+  selector:
+    matchLabels:
+      app: captcha-api-backend
+  template:
+    metadata:
+      labels:
+        app: captcha-api-backend
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: captcha-api-backend
+                topologyKey: kubernetes.io/hostname
+      nodeSelector:
+        node-type: captcha-api
+      imagePullSecrets:
+        - name: kcr-pull-secret
+      containers:
+        - name: captcha-api-backend
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/captcha-api-backend:8a191cc8b6b2b2fd2a881b881b28243e2f2c95b5
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: "az-a.team1-db.1bb3c9ceb1db43928600b93b2a2b1d50.mysql.managed-service.kr-central-2.kakaocloud.com"
+            - name: DB_PORT
+              value: "13306"
+            - name: DB_USER
+              value: "realcatcha"
+            - name: DB_PASSWORD
+              value: "realcatcha"
+            - name: DB_NAME
+              value: "captcha"
+            - name: TZ
+              value: "Asia/Seoul"
+            - name: DEMO_SECRET_KEY
+              value: "rc_sk_273d06a8a03799f7637083b50f4f08f2aa29ffb56fd1bfe64833850b4b16810c"
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "1"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
