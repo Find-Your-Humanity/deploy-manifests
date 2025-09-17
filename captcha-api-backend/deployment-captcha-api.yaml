@@ -12,7 +12,11 @@ spec:
     metadata:
       labels:
         app: captcha-api-backend
-#        admission.datadoghq.com/enabled: "true"
+        tags.datadoghq.com/env: "production"
+        tags.datadoghq.com/service: "captcha-api-backend"
+        tags.datadoghq.com/version: "1.0.0"
+      annotations:
+        admission.datadoghq.com/enabled: "true"
     spec:
       affinity:
         podAntiAffinity:
@@ -37,10 +41,14 @@ spec:
               value: "true"
             - name: DD_GIT_REPOSITORY_URL
               value: github.com/find-your-humanity/captcha-api
-            - name: DD_AGENT_HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP # Pod가 실행 중인 노드의 IP를 자동으로 주입
+            - name: DD_TRACE_AGENT_URL
+              value: "http://datadog-agent.default.svc.cluster.local:8126"
+            - name: DD_RUNTIME_METRICS_ENABLED
+              value: "true"
+            - name: DD_TRACE_SAMPLE_RATE
+              value: "1"
+            - name: DD_PROFILING_ENABLED
+              value: "false"
             - name: DD_ENV # 환경 구분 (e.g., production, staging)
               value: "production"
             - name: DD_SERVICE # 서비스 이름
