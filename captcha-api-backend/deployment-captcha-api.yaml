@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: captcha-api-backend
-        admission.datadoghq.com/enabled: "true"
+#        admission.datadoghq.com/enabled: "true"
     spec:
       affinity:
         podAntiAffinity:
