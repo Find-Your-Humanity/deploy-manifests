@@ -23,7 +23,7 @@ spec:
           path: /usr/share/zoneinfo/Asia/Seoul
       containers:
         - name: gateway-api
-          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:f291c5bbf64d2a1bc1f7dc595ad588e518d4c547
+          image: kc-sfacspace.kr-central-2.kcr.dev/team1-repo/gateway-api:d634326c498e030882bf85011f1ca25f27e0a754
           ports:
             - containerPort: 80
           volumeMounts:
